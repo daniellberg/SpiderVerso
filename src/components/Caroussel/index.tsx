@@ -1,6 +1,9 @@
-import HeroDetails from "../HeroDetails/index";
+"use client"
 
+import { useState } from "react";
+import HeroDetails from "../HeroDetails/index";
 import { IHeroData } from "@/interfaces/heroes";
+import styles from "./carousel.module.scss";
 
 interface IProps {
   heroes: IHeroData[];
@@ -8,9 +11,23 @@ interface IProps {
 }
 
 export default function Carousel({ heroes, activeId }: IProps) {
-  return;
-  <>
-    <h1>Carousel: {activeId}</h1>
-    <HeroDetails data={heroes[0]} />
-  </>;
+  
+  const [visibleItems, setVisibleItems] = useState<IHeroData[] | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number>(
+    heroes.findIndex((hero) => hero.id === activeId)
+  );
+  
+  return (
+    <div className={styles.container}>
+      <div className={styles.carousel}>
+        <div className={styles.wrapper}>
+          Lista com os herois
+        </div>
+      </div>
+
+      <div className={styles.details}>
+        <HeroDetails data={heroes[0]} />
+      </div>
+    </div>
+  );
 }

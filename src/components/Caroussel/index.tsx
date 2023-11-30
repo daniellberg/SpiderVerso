@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import HeroDetails from "../HeroDetails/index";
 import { IHeroData } from "@/interfaces/heroes";
 import styles from "./carousel.module.scss";
@@ -23,6 +23,7 @@ export default function Carousel({ heroes, activeId }: IProps) {
   const [activeIndex, setActiveIndex] = useState<number>(
     heroes.findIndex((hero) => hero.id === activeId) - 1
   );
+  const [startInteractionPos, setStartInteractionPos] = useState<number>(0);
 
   const transitionAudio = useMemo(
     () => new Audio("/sounds/transition.mp3"),
@@ -86,6 +87,38 @@ export default function Carousel({ heroes, activeId }: IProps) {
 
   }, [visibleItems, transitionAudio, voicesAudio]);
 
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    setStartInteractionPos(e.clientX);
+  }
+
+  const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    if(!startInteractionPos){
+      return;
+    }  
+    
+    handleChange(e.clientX);
+  }
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setStartInteractionPos(e.touches[0].clientX);
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    if(!startInteractionPos){
+      return;
+    }   
+    
+    handleChange(e.changedTouches[0].clientX);
+  }
+
+  const handleChange = (clientX: number) => {
+    const endInteractionPos = clientX;
+    const diffX = endInteractionPos - startInteractionPos; // + = pra esquerda
+
+    const newPos = diffX > 0 ? -1 : 1;
+    handleChangeActiveIndex(newPos);
+  }
+
   //altera heroi principal no carrosel
   //+1 = roda sentido horario
   //-1 = roda sentido anti-horario
@@ -102,7 +135,10 @@ export default function Carousel({ heroes, activeId }: IProps) {
       <div className={styles.carousel}>
         <div
           className={styles.wrapper}
-          onClick={() => handleChangeActiveIndex(1)}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
         >
           <AnimatePresence mode="popLayout">
             {visibleItems.map((item, position) => (

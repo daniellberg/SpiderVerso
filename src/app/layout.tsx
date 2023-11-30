@@ -23,7 +23,7 @@ export default function RootLayout({
               src="/spider-logo.svg"
               alt="Spider"
               width={260}
-              height={70}
+              height={50}
             />
           </Link>
           <Image src="/icons/user.svg" alt="Login" width={36} height={25} />

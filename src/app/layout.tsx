@@ -2,7 +2,7 @@ import "./globals.scss";
 import Image from "../../node_modules/next/image";
 import Link from "../../node_modules/next/link";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Spider-verse",
   description:
     "Criando um carrossel parallax do Aranhaverso com React e Framer Motion",

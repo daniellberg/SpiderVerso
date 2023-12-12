@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import HeroDetails from "../HeroDetails/index";
-import { IHeroData } from "@/interfaces/heroes";
-import styles from "./carousel.module.scss";
-import HeroPicture from "../HeroPicture";
 import { AnimatePresence, motion } from "framer-motion";
+
+import HeroDetails from "../HeroDetails/index";
+import HeroPicture from "../HeroPicture";
+
+import styles from "./carousel.module.scss";
+
+import { IHeroData } from "@/interfaces/heroes";
 
 enum enPosition {
   FRONT = 0,
@@ -70,7 +73,7 @@ export default function Carousel({ heroes, activeId }: IProps) {
   }, [visibleItems]);
 
   useEffect(() => {
-    if(!visibleItems){
+    if (!visibleItems) {
       return;
     }
 
@@ -78,38 +81,37 @@ export default function Carousel({ heroes, activeId }: IProps) {
 
     const voiceAudio = voicesAudio[visibleItems[enPosition.MIDDLE].id];
 
-    if(!voiceAudio){
+    if (!voiceAudio) {
       return;
     }
 
     voiceAudio.volume = 0.3;
     voiceAudio.play();
-
   }, [visibleItems, transitionAudio, voicesAudio]);
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
     setStartInteractionPos(e.clientX);
-  }
+  };
 
   const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
-    if(!startInteractionPos){
+    if (!startInteractionPos) {
       return;
-    }  
-    
+    }
+
     handleChange(e.clientX);
-  }
+  };
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     setStartInteractionPos(e.touches[0].clientX);
-  }
+  };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
-    if(!startInteractionPos){
+    if (!startInteractionPos) {
       return;
-    }   
-    
+    }
+
     handleChange(e.changedTouches[0].clientX);
-  }
+  };
 
   const handleChange = (clientX: number) => {
     const endInteractionPos = clientX;
@@ -117,7 +119,7 @@ export default function Carousel({ heroes, activeId }: IProps) {
 
     const newPos = diffX > 0 ? -1 : 1;
     handleChangeActiveIndex(newPos);
-  }
+  };
 
   //altera heroi principal no carrosel
   //+1 = roda sentido horario

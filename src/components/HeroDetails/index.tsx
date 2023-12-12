@@ -1,13 +1,15 @@
-import { spidermanFont } from "@/fonts/index";
-import { IHeroData } from "@/interfaces/heroes";
-import styles from "./heroDetails.module.scss";
-import { Quicksand } from "next/font/google"
+import { Quicksand } from "next/font/google";
+
 import Image from "../../../node_modules/next/image";
 
+import styles from "./heroDetails.module.scss";
+
+import { spidermanFont } from "@/fonts/index";
+import { IHeroData } from "@/interfaces/heroes";
 
 const quicksand = Quicksand({
-  weight: ["400","600","700"],
-  subsets: ["latin"]
+  weight: ["400", "600", "700"],
+  subsets: ["latin"],
 });
 
 interface IProps {
@@ -32,7 +34,7 @@ export default function HeroDetails({ data }: IProps) {
             </tr>
             <tr>
               <td className={styles.label}>Data de nascimento</td>
-              <td>{new Date(details.birthday).toLocaleDateString('pt-BR')}</td>
+              <td>{new Date(details.birthday).toLocaleDateString("pt-BR")}</td>
             </tr>
             <tr>
               <td className={styles.label}>Terra natal</td>
@@ -50,14 +52,14 @@ export default function HeroDetails({ data }: IProps) {
         </table>
         <div className={styles.details}>
           <h2 className={styles.subtitle}>Primeira Aparição</h2>
-          <Image 
-           src={`/spiders/${id}-comic-book.png`}
-           alt={`Primeira aparição de ${name} no universo ${universe}`}
-           width={80}
-           height={122}
+          <Image
+            src={`/spiders/${id}-comic-book.png`}
+            alt={`Primeira aparição de ${name} no universo ${universe}`}
+            width={80}
+            height={122}
           />
         </div>
       </div>
     </div>
-  )
+  );
 }
